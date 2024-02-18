@@ -3,7 +3,11 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.0.31903.59
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "dotta.Net", "dotta.Net.csproj", "{40158A01-D638-40A8-BF9C-A3C43E8E7CD2}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Src", "Src", "{6E38EDFE-CC2A-43A1-949E-B4C0829AB188}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "dotta.Net", "Src\dotta.Net\dotta.Net.csproj", "{B936D767-61B4-4A3D-B7ED-B9C3F9C33481}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "dotta.Net.Test", "Src\dotta.Net.Test\dotta.Net.Test.csproj", "{24C3BCFF-15B8-4021-B9FC-BD297D851DFC}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -11,12 +15,20 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{40158A01-D638-40A8-BF9C-A3C43E8E7CD2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{40158A01-D638-40A8-BF9C-A3C43E8E7CD2}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{40158A01-D638-40A8-BF9C-A3C43E8E7CD2}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{40158A01-D638-40A8-BF9C-A3C43E8E7CD2}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B936D767-61B4-4A3D-B7ED-B9C3F9C33481}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B936D767-61B4-4A3D-B7ED-B9C3F9C33481}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B936D767-61B4-4A3D-B7ED-B9C3F9C33481}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B936D767-61B4-4A3D-B7ED-B9C3F9C33481}.Release|Any CPU.Build.0 = Release|Any CPU
+		{24C3BCFF-15B8-4021-B9FC-BD297D851DFC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{24C3BCFF-15B8-4021-B9FC-BD297D851DFC}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{24C3BCFF-15B8-4021-B9FC-BD297D851DFC}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{24C3BCFF-15B8-4021-B9FC-BD297D851DFC}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{B936D767-61B4-4A3D-B7ED-B9C3F9C33481} = {6E38EDFE-CC2A-43A1-949E-B4C0829AB188}
+		{24C3BCFF-15B8-4021-B9FC-BD297D851DFC} = {6E38EDFE-CC2A-43A1-949E-B4C0829AB188}
 	EndGlobalSection
 EndGlobal
