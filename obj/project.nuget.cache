@@ -1,0 +1,11 @@
+{
+  "version": 2,
+  "dgSpecHash": "DMIXidf8k9u8U6m6R9ddZEgctjnjkYpRF21boWsuv7mHeT8Th83PFu0ot/af+EmRf0RBsuhbb0L4V7BTdpnO1g==",
+  "success": true,
+  "projectFilePath": "/Users/ceereal/Documents/cyril-ikelie/codebase/dotnet/dotta.Net/dotta.Net.csproj",
+  "expectedPackageFiles": [
+    "/Users/ceereal/.nuget/packages/microsoft.netcore.platforms/1.1.0/microsoft.netcore.platforms.1.1.0.nupkg.sha512",
+    "/Users/ceereal/.nuget/packages/netstandard.library/2.0.3/netstandard.library.2.0.3.nupkg.sha512"
+  ],
+  "logs": []
+}
