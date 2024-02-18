@@ -2,7 +2,7 @@
 {
     public enum DottaEnvironment
     {
-        Development = 1,
+        Sandbox = 1,
         Production
     }
 }

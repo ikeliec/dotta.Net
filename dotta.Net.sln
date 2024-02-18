@@ -9,6 +9,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "dotta.Net", "Src\dotta.Net\
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "dotta.Net.Test", "Src\dotta.Net.Test\dotta.Net.Test.csproj", "{24C3BCFF-15B8-4021-B9FC-BD297D851DFC}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "dotta.Net.Demo", "Src\dotta.Net.Demo\dotta.Net.Demo.csproj", "{1B67C9AE-C2A6-4D6E-AD92-51C83F572585}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -23,6 +25,10 @@ Global
 		{24C3BCFF-15B8-4021-B9FC-BD297D851DFC}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{24C3BCFF-15B8-4021-B9FC-BD297D851DFC}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{24C3BCFF-15B8-4021-B9FC-BD297D851DFC}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1B67C9AE-C2A6-4D6E-AD92-51C83F572585}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1B67C9AE-C2A6-4D6E-AD92-51C83F572585}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1B67C9AE-C2A6-4D6E-AD92-51C83F572585}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1B67C9AE-C2A6-4D6E-AD92-51C83F572585}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -30,5 +36,6 @@ Global
 	GlobalSection(NestedProjects) = preSolution
 		{B936D767-61B4-4A3D-B7ED-B9C3F9C33481} = {6E38EDFE-CC2A-43A1-949E-B4C0829AB188}
 		{24C3BCFF-15B8-4021-B9FC-BD297D851DFC} = {6E38EDFE-CC2A-43A1-949E-B4C0829AB188}
+		{1B67C9AE-C2A6-4D6E-AD92-51C83F572585} = {6E38EDFE-CC2A-43A1-949E-B4C0829AB188}
 	EndGlobalSection
 EndGlobal
