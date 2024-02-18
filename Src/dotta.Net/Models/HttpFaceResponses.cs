@@ -21,13 +21,13 @@ namespace dotta.Net
         public string orientation { get; set; }
     }
 
-    public class HttpDottaFaceDetectionResponse
+    public class HttpDottaFaceDetectResponse
     {
         public bool status { get; set; }
         public string message { get; set; }
-        public HttpDottaFaceDetectionResponseData data { get; set; }
+        public HttpDottaFaceDetectResponseData data { get; set; }
     }
-    public class HttpDottaFaceDetectionResponseData
+    public class HttpDottaFaceDetectResponseData
     {
         public int? errorCode { get; set; }
         public string errorMessage { get; set; }
@@ -37,5 +37,18 @@ namespace dotta.Net
         public int padding { get; set; }
         public double angle { get; set; }
         public string orientation { get; set; }
+    }
+
+    public class HttpDottaFaceMatchResponse
+    {
+        public bool status { get; set; }
+        public string message { get; set; }
+        public HttpDottaFaceMatchResponseData data { get; set; }
+    }
+    public class HttpDottaFaceMatchResponseData
+    {
+        public int? errorCode { get; set; }
+        public string errorMessage { get; set; }
+        public float similarityScore { get; set; }
     }
 }

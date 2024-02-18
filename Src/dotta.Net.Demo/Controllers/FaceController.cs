@@ -26,7 +26,7 @@ public class FaceController : ControllerBase
     }
 
     /// <summary>
-    /// Get facial attributes on photo
+    /// Detect face from photo
     /// </summary>
     /// <param name="command"></param>
     [Produces("application/json")]
@@ -36,6 +36,20 @@ public class FaceController : ControllerBase
     public async Task<IActionResult> Detect([FromForm] FaceDetectCommand command)
     {
         var faceAttributes = await _dotta.FaceDetection(command.Photo);
+        return Ok(faceAttributes);
+    }
+
+    /// <summary>
+    /// Run comparison on two photos
+    /// </summary>
+    /// <param name="command"></param>
+    [Produces("application/json")]
+    [ProducesResponseType(typeof(DottaResponse<FaceMatchResponse>), (int)HttpStatusCode.OK)]
+    [ProducesResponseType(typeof(ErrorResponse), (int)HttpStatusCode.BadRequest)]
+    [HttpPost("Match")]
+    public async Task<IActionResult> Match([FromForm] FaceMatchCommand command)
+    {
+        var faceAttributes = await _dotta.FaceMatch(command.PhotoOne, command.PhotoTwo);
         return Ok(faceAttributes);
     }
 }
