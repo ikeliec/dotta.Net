@@ -24,4 +24,18 @@ public class FaceController : ControllerBase
         var faceAttributes = await _dotta.FaceAttributes(command.Photo);
         return Ok(faceAttributes);
     }
+
+    /// <summary>
+    /// Get facial attributes on photo
+    /// </summary>
+    /// <param name="command"></param>
+    [Produces("application/json")]
+    [ProducesResponseType(typeof(DottaResponse<FaceDetectResponse>), (int)HttpStatusCode.OK)]
+    [ProducesResponseType(typeof(ErrorResponse), (int)HttpStatusCode.BadRequest)]
+    [HttpPost("Detect")]
+    public async Task<IActionResult> Detect([FromForm] FaceDetectCommand command)
+    {
+        var faceAttributes = await _dotta.FaceDetection(command.Photo);
+        return Ok(faceAttributes);
+    }
 }

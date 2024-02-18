@@ -128,6 +128,7 @@ namespace dotta.Net
                     faceAttributesResponse.Message = errorResponse.Message;
                 }
 
+                imageContent.Dispose();
                 formData.Dispose();
 
                 return faceAttributesResponse;
@@ -141,9 +142,90 @@ namespace dotta.Net
             }
         }
 
-        public DottaResponse FaceDetection()
+        public async Task<DottaResponse<FaceDetectResponse>> FaceDetection(IFormFile photo)
         {
-            throw new NotImplementedException();
+            var faceDetectionResponse = new DottaResponse<FaceDetectResponse>();
+
+            try
+            {
+                // check if photo file is empty
+                if (photo is null)
+                    return new DottaResponse<FaceDetectResponse>
+                    {
+                        Status = false,
+                        Message = "Photo with a face is required"
+                    };
+
+                // check for allow photo file extension
+                var photoExtension = Path.GetExtension(photo.FileName);
+                if (!_allowFileExtensions.Contains(photoExtension))
+                    return new DottaResponse<FaceDetectResponse>
+                    {
+                        Status = false,
+                        Message = $"File extension not allowed. Allowed extensions are {string.Join(" ", _allowFileExtensions)}"
+                    };
+
+                // get photo mime type. This is needed when making multipart http request
+                var photoMimeType = GetPhotoMimeType(photoExtension);
+                if (string.IsNullOrEmpty(photoMimeType))
+                    return new DottaResponse<FaceDetectResponse>
+                    {
+                        Status = false,
+                        Message = "Photo has an invalid mimetype"
+                    };
+
+                // build content for multipart http request
+                var imageContent = new StreamContent(photo.OpenReadStream());
+                imageContent.Headers.ContentType = MediaTypeHeaderValue.Parse(photoMimeType);
+
+                var formData = new MultipartFormDataContent
+                {
+                    { imageContent, "Photo", photo.FileName }
+                };
+
+                // make network request and serialize response
+                _httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Basic", ApiKey);
+                var httpResponse = await _httpClient.PostAsync($"{(Environment == DottaEnvironment.Production ? BaseUrlProduction : BaseUrlSandbox)}Face/Detect", formData);
+                var response = await httpResponse.Content.ReadAsStringAsync();
+                if (httpResponse.IsSuccessStatusCode)
+                {
+                    var responseDTO = JsonSerializer.Deserialize<HttpDottaFaceDetectionResponse>(response);
+                    faceDetectionResponse = new DottaResponse<FaceDetectResponse>
+                    {
+                        Status = responseDTO.status,
+                        Message = responseDTO.message,
+                        Data = new FaceDetectResponse
+                        {
+                            Angle = responseDTO.data.angle,
+                            ErrorCode = responseDTO.data.errorCode,
+                            ErrorMessage = responseDTO.data.errorMessage,
+                            Orientation = responseDTO.data.orientation,
+                            Padding = responseDTO.data.padding,
+                            PointX = responseDTO.data.pointX,
+                            PointY = responseDTO.data.pointY,
+                            Width = responseDTO.data.width
+                        }
+                    };
+                }
+                else
+                {
+                    var errorResponse = JsonSerializer.Deserialize<DottaResponse>(response);
+                    faceDetectionResponse.Status = errorResponse.Status;
+                    faceDetectionResponse.Message = errorResponse.Message;
+                }
+
+                imageContent.Dispose();
+                formData.Dispose();
+
+                return faceDetectionResponse;
+            }
+            catch (Exception ex)
+            {
+                faceDetectionResponse.Status = false;
+                faceDetectionResponse.Message = ex.Message;
+
+                return faceDetectionResponse;
+            }
         }
 
         public DottaResponse FaceMatch()

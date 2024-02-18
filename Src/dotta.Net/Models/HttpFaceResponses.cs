@@ -6,9 +6,9 @@ namespace dotta.Net
     {
         public bool status { get; set; }
         public string message { get; set; }
-        public HttpFaceAttributesResponse data { get; set; }
+        public HttpDottaFaceAttributesResponseData data { get; set; }
     }
-    public class HttpFaceAttributesResponse
+    public class HttpDottaFaceAttributesResponseData
     {
         public int? errorCode { get; set; }
         public string errorMessage { get; set; }
@@ -21,4 +21,21 @@ namespace dotta.Net
         public string orientation { get; set; }
     }
 
+    public class HttpDottaFaceDetectionResponse
+    {
+        public bool status { get; set; }
+        public string message { get; set; }
+        public HttpDottaFaceDetectionResponseData data { get; set; }
+    }
+    public class HttpDottaFaceDetectionResponseData
+    {
+        public int? errorCode { get; set; }
+        public string errorMessage { get; set; }
+        public int pointX { get; set; }
+        public int pointY { get; set; }
+        public int width { get; set; }
+        public int padding { get; set; }
+        public double angle { get; set; }
+        public string orientation { get; set; }
+    }
 }
