@@ -54,7 +54,7 @@ Pass the your public and private key if you don't know how to get a base64 strin
 
 ### Other links
 - [NuGet Package][nugetlink]
-- [Release Notes](#)
+- [Release Notes](https://github.com/ikeliec/dotta.Net/releases)
 - [Contributing Guidelines](CONTRIBUTING.md)
 - [License](LICENSE.md)
 - [Stack Overflow](https://stackoverflow.com/questions/tagged/dotta.net)
@@ -63,4 +63,4 @@ Pass the your public and private key if you don't know how to get a base64 strin
 
 [dottawebsite]: https://withdotta.com
 [dottaapidoc]: https://docs.withdotta.com
-[nugetlink]: #
+[nugetlink]: https://www.nuget.org/packages/dotta.Net
