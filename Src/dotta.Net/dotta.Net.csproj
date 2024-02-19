@@ -2,6 +2,16 @@
 
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
+
+    <!-- Nuget package properties  -->
+    <PackageId>dotta.Net</PackageId>
+    <Version>1.0.0</Version>
+    <Authors>Cyril Ikelie</Authors>
+    <Product>dotta.Net</Product>
+    <Title>dotta.Net</Title>
+    <PackageDescription>dotta.Net is a lightweight and intuitive package designed to streamline the integration process of dotta biometrics service and empower businesses to harness the power of dotta effortlessly.</PackageDescription>
+    <PackageTags>dotta, facial, biometrics</PackageTags>
+    <RepositoryUrl>https://github.com/ikeliec/dotta.Net</RepositoryUrl>
   </PropertyGroup>
 
   <ItemGroup>

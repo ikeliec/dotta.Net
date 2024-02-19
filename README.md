@@ -1,7 +1,7 @@
 ## Introduction 
-`dotta.Net` is a lightweight and intuitive package designed to streamline the integration process of [dotta][dottawebsite] API and empower businesses to harness the power of [dotta biometric service][dottawebsite] effortlessly.
+`dotta.Net` is a lightweight and intuitive package designed to streamline the integration process of [dotta API][dottaapidoc] and empower businesses to harness the power of [dotta biometric service][dottawebsite] effortlessly.
 
-[dotta biometric service][dottawebsite] offers a wealth of functionality for performing real-time identity verification in the most convenient and efficient approach, but getting started and putting all the codes together can sometimes be complex and time-consuming. With `dotta.Net`, we've simplified the integration process, allowing you to focus on building amazing applications without getting bogged down in implementation details.
+[dotta][dottawebsite] offers a wealth of functionality for performing real-time identity verification in the most convenient and efficient approach, but getting started and putting all the codes together can sometimes be complex and time-consuming. With `dotta.Net`, we've simplified the integration process, allowing you to focus on building amazing applications without getting bogged down in implementation details.
 
 ## Getting Started
 1. Install the `dotta.Net` package from [NuGet][nugetlink].
@@ -55,4 +55,5 @@ var response = await _dotta.FaceAttributes(photo);
 
 
 [dottawebsite]: https://withdotta.com
+[dottaapidoc]: https://docs.withdotta.com
 [nugetlink]: #
