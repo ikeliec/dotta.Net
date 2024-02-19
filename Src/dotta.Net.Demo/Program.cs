@@ -6,7 +6,7 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddHttpClient();
 builder.Services.AddDotta(new DottaServiceOptions
 {
-    ApiKey = "ODZCNzExNjczMkUyNDI2OUFGRjg2NkJGMERBNjBFNjg6MzE0QzJERkYzNDRENDhFRjlFNkUyOTI5RUQ5MEQwRTM=",
+    ApiKey = "",
     BaseUrlProduction = "https://apps.securedrecords.com/dotta-biometrics/api",
     BaseUrlSandbox = "https://apps.securedrecords.com/DevDottaBiometrics/api",
     Environment = DottaEnvironment.Sandbox,

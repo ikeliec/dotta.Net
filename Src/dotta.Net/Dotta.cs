@@ -38,8 +38,8 @@ namespace dotta.Net
 
         public string ApiKey { get; }
         public DottaEnvironment Environment { get; }
-        public string BaseUrlProduction { get; } = "https://apps.securedrecords.com/dotta-biometrics/api/";
-        public string BaseUrlSandbox { get; } = "https://apps.securedrecords.com/DevDottaBiometrics/api/";
+        public string BaseUrlProduction { get; }
+        public string BaseUrlSandbox { get; }
 
         /// <summary>
         /// Makes network request to dotta api and return facial attributes

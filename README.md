@@ -9,7 +9,7 @@
 dotnet add package dotta.Net
 ```
 
-2. Register `dotta.Net` as a service in your `Program.cs` file:
+2. Register `dotta.Net` as a service in your `Program.cs` file. `dotta.Net` is dependent on HttpClient to work, thus it should be registered after registering HttpClient.
 ```
 // Register HttpClient to enable dotta.Net make http network requests
 builder.Services.AddHttpClient();
@@ -49,7 +49,7 @@ var response = await _dotta.FaceAttributes(photo);
 | BaseUrlProduction | API base url for dotta's production environment. |
 | BaseUrlSandbox | API base url for dotta's sandbox or test environment. |
 
-Pass the your public and private key if you don't know how to get a base64 string encoding of your keys. Otherwise, just pass the ApiKey. When you pass the ApiKey, you won't need to pass the public and private keys
+Pass the your public and private key if you don't know how to get a base64 string encoding of your keys. Otherwise, just pass the ApiKey. When you pass the ApiKey, you won't need to pass the public and private keys.
 
 
 ### Other links
