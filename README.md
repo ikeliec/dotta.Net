@@ -14,19 +14,14 @@ dotnet add package dotta.Net
 // Register HttpClient to enable dotta.Net make http network requests
 builder.Services.AddHttpClient();
 
-builder.Services.AddScoped<Dotta>((serviceProvider) =>
+builder.Services.AddDotta(new DottaServiceOptions
 {
-    var httpClientFactory = serviceProvider.GetRequiredService<IHttpClientFactory>();
-    var httpClient = httpClientFactory.CreateClient();
-
-    return new Dotta(new DottaOptions
-    {
-        ApiKey = "",
-        BaseUrlProduction = "",
-        BaseUrlSandbox = "",
-        Environment = DottaEnvironment.Sandbox,
-        HttpClient = httpClient
-    });
+    ApiKey = "",
+    BaseUrlProduction = "",
+    BaseUrlSandbox = "",
+    Environment = DottaEnvironment.Sandbox,
+    PrivateKey = "",
+    PublicKey = ""
 });
 ```
 
@@ -44,6 +39,18 @@ public ApiController(Dotta dotta)
 ```
 var response = await _dotta.FaceAttributes(photo);
 ```
+**Dotta Service Options**
+| **Option** | **Description** |
+| ---------- | --------------- |
+| ApiKey     | Base64 encode string of your dotta public and private API keys concatenated in this format PUBLICKEY:PRIVATEKEY |
+| PublicKey | Your dotta public API key |
+| PrivateKey | Your dotta private API key |
+| Environment | Enum to specify which dotta environment you want to use |
+| BaseUrlProduction | API base url for dotta's production environment. |
+| BaseUrlSandbox | API base url for dotta's sandbox or test environment. |
+
+Pass the your public and private key if you don't know how to get a base64 string encoding of your keys. Otherwise, just pass the ApiKey. When you pass the ApiKey, you won't need to pass the public and private keys
+
 
 ### Other links
 - [NuGet Package][nugetlink]
