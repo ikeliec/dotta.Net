@@ -2,10 +2,14 @@
 
 namespace dotta.Net
 {
-    public class HttpDottaFaceAttributesResponse
+    public class HttpDottaResponse
     {
         public bool status { get; set; }
         public string message { get; set; }
+    }
+
+    public class HttpDottaFaceAttributesResponse : HttpDottaResponse
+    {
         public HttpDottaFaceAttributesResponseData data { get; set; }
     }
     public class HttpDottaFaceAttributesResponseData
@@ -21,10 +25,8 @@ namespace dotta.Net
         public string orientation { get; set; }
     }
 
-    public class HttpDottaFaceDetectResponse
+    public class HttpDottaFaceDetectResponse : HttpDottaResponse
     {
-        public bool status { get; set; }
-        public string message { get; set; }
         public HttpDottaFaceDetectResponseData data { get; set; }
     }
     public class HttpDottaFaceDetectResponseData
@@ -39,10 +41,8 @@ namespace dotta.Net
         public string orientation { get; set; }
     }
 
-    public class HttpDottaFaceMatchResponse
+    public class HttpDottaFaceMatchResponse : HttpDottaResponse
     {
-        public bool status { get; set; }
-        public string message { get; set; }
         public HttpDottaFaceMatchResponseData data { get; set; }
     }
     public class HttpDottaFaceMatchResponseData
@@ -50,5 +50,16 @@ namespace dotta.Net
         public int? errorCode { get; set; }
         public string errorMessage { get; set; }
         public float similarityScore { get; set; }
+    }
+
+    public class HttpDottaFaceActiveLivenessResponse : HttpDottaResponse
+    {
+        public HttpDottaFaceActiveLivenessResponseData data { get; set; }
+    }
+    public class HttpDottaFaceActiveLivenessResponseData
+    {
+        public int? errorCode { get; set; }
+        public string errorMessage { get; set; }
+        public double livenessScore { get; set; }
     }
 }

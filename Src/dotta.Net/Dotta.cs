@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Net.Http;
@@ -16,34 +17,23 @@ namespace dotta.Net
         private readonly HttpClient _httpClient;
         private readonly string[] _allowFileExtensions = { ".png", ".jpeg", ".jpg" };
 
-        /// <summary>
-        /// To instantiate, register the service in the program.cs and pass the arguments. All parameters are required.
-        /// </summary>
-        /// <param name="apiKey"></param>
-        /// <param name="environment"></param>
-        /// <param name="httpClient"></param>
-        public Dotta(string apiKey, DottaEnvironment environment, HttpClient httpClient)
+        public Dotta(DottaOptions options)
         {
-            ApiKey = apiKey;
-            Environment = environment;
-            _httpClient = httpClient;
-        }
+            _httpClient = options.HttpClient;
+            Environment = options.Environment;
+            BaseUrlProduction = options.BaseUrlProduction;
+            BaseUrlSandbox = options.BaseUrlSandbox;
 
-        /// <summary>
-        /// To instantiate, register the service in the program.cs and pass the arguments. All parameters are required.
-        /// </summary>
-        /// <param name="publicKey"></param>
-        /// <param name="privateKey"></param>
-        /// <param name="environment"></param>
-        /// <param name="httpClient"></param>
-        public Dotta(string publicKey, string privateKey, DottaEnvironment environment, HttpClient httpClient)
-        {
-            var plainTextBytes = Encoding.UTF8.GetBytes($"{publicKey}:{privateKey}");
-            var base64String = Convert.ToBase64String(plainTextBytes);
-
-            ApiKey = base64String;
-            Environment = environment;
-            _httpClient = httpClient;
+            if (!string.IsNullOrWhiteSpace(options.ApiKey))
+            {
+                ApiKey = options.ApiKey;
+            }
+            else
+            {
+                var plainTextBytes = Encoding.UTF8.GetBytes($"{options.PublicKey}:{options.PrivateKey}");
+                var base64String = Convert.ToBase64String(plainTextBytes);
+                ApiKey = base64String;
+            }
         }
 
         public string ApiKey { get; }
@@ -98,7 +88,7 @@ namespace dotta.Net
 
                 // make network request and serialize response
                 _httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Basic", ApiKey);
-                var httpResponse = await _httpClient.PostAsync($"{(Environment == DottaEnvironment.Production ? BaseUrlProduction : BaseUrlSandbox)}Face/Attributes", formData);
+                var httpResponse = await _httpClient.PostAsync($"{(Environment == DottaEnvironment.Production ? BaseUrlProduction : BaseUrlSandbox)}/Face/Attributes", formData);
                 var response = await httpResponse.Content.ReadAsStringAsync();
                 if (httpResponse.IsSuccessStatusCode)
                 {
@@ -123,9 +113,9 @@ namespace dotta.Net
                 }
                 else
                 {
-                    var errorResponse = JsonSerializer.Deserialize<DottaResponse>(response);
-                    faceAttributesResponse.Status = errorResponse.Status;
-                    faceAttributesResponse.Message = errorResponse.Message;
+                    var errorResponse = JsonSerializer.Deserialize<HttpDottaResponse>(response);
+                    faceAttributesResponse.Status = errorResponse.status;
+                    faceAttributesResponse.Message = errorResponse.message;
                 }
 
                 imageContent.Dispose();
@@ -190,7 +180,7 @@ namespace dotta.Net
 
                 // make network request and serialize response
                 _httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Basic", ApiKey);
-                var httpResponse = await _httpClient.PostAsync($"{(Environment == DottaEnvironment.Production ? BaseUrlProduction : BaseUrlSandbox)}Face/Detect", formData);
+                var httpResponse = await _httpClient.PostAsync($"{(Environment == DottaEnvironment.Production ? BaseUrlProduction : BaseUrlSandbox)}/Face/Detect", formData);
                 var response = await httpResponse.Content.ReadAsStringAsync();
                 if (httpResponse.IsSuccessStatusCode)
                 {
@@ -214,9 +204,9 @@ namespace dotta.Net
                 }
                 else
                 {
-                    var errorResponse = JsonSerializer.Deserialize<DottaResponse>(response);
-                    faceDetectResponse.Status = errorResponse.Status;
-                    faceDetectResponse.Message = errorResponse.Message;
+                    var errorResponse = JsonSerializer.Deserialize<HttpDottaResponse>(response);
+                    faceDetectResponse.Status = errorResponse.status;
+                    faceDetectResponse.Message = errorResponse.message;
                 }
 
                 imageContent.Dispose();
@@ -276,7 +266,7 @@ namespace dotta.Net
                 // build content for multipart http request
                 var imageOneContent = new StreamContent(photoOne.OpenReadStream());
                 imageOneContent.Headers.ContentType = MediaTypeHeaderValue.Parse(photoOneMimeType);
-                
+
                 var imageTwoContent = new StreamContent(photoTwo.OpenReadStream());
                 imageTwoContent.Headers.ContentType = MediaTypeHeaderValue.Parse(photoTwoMimeType);
 
@@ -288,7 +278,7 @@ namespace dotta.Net
 
                 // make network request and serialize response
                 _httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Basic", ApiKey);
-                var httpResponse = await _httpClient.PostAsync($"{(Environment == DottaEnvironment.Production ? BaseUrlProduction : BaseUrlSandbox)}Face/Match", formData);
+                var httpResponse = await _httpClient.PostAsync($"{(Environment == DottaEnvironment.Production ? BaseUrlProduction : BaseUrlSandbox)}/Face/Match", formData);
                 var response = await httpResponse.Content.ReadAsStringAsync();
                 if (httpResponse.IsSuccessStatusCode)
                 {
@@ -307,9 +297,9 @@ namespace dotta.Net
                 }
                 else
                 {
-                    var errorResponse = JsonSerializer.Deserialize<DottaResponse>(response);
-                    faceMatchResponse.Status = errorResponse.Status;
-                    faceMatchResponse.Message = errorResponse.Message;
+                    var errorResponse = JsonSerializer.Deserialize<HttpDottaResponse>(response);
+                    faceMatchResponse.Status = errorResponse.status;
+                    faceMatchResponse.Message = errorResponse.message;
                 }
 
                 imageOneContent.Dispose();
@@ -327,9 +317,96 @@ namespace dotta.Net
             }
         }
 
-        public DottaResponse LivenessCheck()
+        /// <summary>
+        /// Makes network request to dotta api to active liveness analysis on a collection of photos
+        /// </summary>
+        /// <param name="photos"></param>
+        /// <returns></returns>
+        public async Task<DottaResponse<FaceActiveLivenessResponse>> ActiveLivenessCheck(IFormFileCollection photos)
         {
-            throw new NotImplementedException();
+            var faceActiveLivenessResponse = new DottaResponse<FaceActiveLivenessResponse>();
+
+            try
+            {
+                // check if photo file is empty
+                if (photos?.Any() == false)
+                    return new DottaResponse<FaceActiveLivenessResponse>
+                    {
+                        Status = false,
+                        Message = "The collection of photos cannot be empty"
+                    };
+
+                // initialize formdata for scope
+                var formData = new MultipartFormDataContent();
+                var imageContentStreams = new List<StreamContent>();
+
+                foreach (var photo in photos)
+                {
+                    // check for allow photo file extension
+                    var photoExtension = Path.GetExtension(photo.FileName);
+                    if (!_allowFileExtensions.Contains(photoExtension))
+                        return new DottaResponse<FaceActiveLivenessResponse>
+                        {
+                            Status = false,
+                            Message = $"Invalid file extension detected. Allowed extensions are {string.Join(" ", _allowFileExtensions)}"
+                        };
+
+                    // get photo mime type. This is needed when making multipart http request
+                    var photoMimeType = GetPhotoMimeType(photoExtension);
+                    if (string.IsNullOrEmpty(photoMimeType))
+                        return new DottaResponse<FaceActiveLivenessResponse>
+                        {
+                            Status = false,
+                            Message = "Invalid photo mimetype detected"
+                        };
+
+                    // build content for multipart http request
+                    var imageContent = new StreamContent(photo.OpenReadStream());
+                    imageContent.Headers.ContentType = MediaTypeHeaderValue.Parse(photoMimeType);
+                    formData.Add(imageContent, "Photos", photo.FileName);
+
+                    imageContentStreams.Add(imageContent);
+                }
+
+                // make network request and serialize response
+                _httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Basic", ApiKey);
+                var httpResponse = await _httpClient.PostAsync($"{(Environment == DottaEnvironment.Production ? BaseUrlProduction : BaseUrlSandbox)}/Face/ActiveLiveness", formData);
+                var response = await httpResponse.Content.ReadAsStringAsync();
+                if (httpResponse.IsSuccessStatusCode)
+                {
+                    var responseDTO = JsonSerializer.Deserialize<HttpDottaFaceActiveLivenessResponse>(response);
+                    faceActiveLivenessResponse = new DottaResponse<FaceActiveLivenessResponse>
+                    {
+                        Status = responseDTO.status,
+                        Message = responseDTO.message,
+                        Data = new FaceActiveLivenessResponse
+                        {
+                            ErrorCode = responseDTO.data.errorCode,
+                            ErrorMessage = responseDTO.data.errorMessage,
+                            LivenessScore = responseDTO.data.livenessScore
+                        }
+                    };
+                }
+                else
+                {
+                    var errorResponse = JsonSerializer.Deserialize<HttpDottaResponse>(response);
+                    faceActiveLivenessResponse.Status = errorResponse.status;
+                    faceActiveLivenessResponse.Message = errorResponse.message;
+                }
+
+                formData.Dispose();
+                foreach (var stream in imageContentStreams)
+                    stream.Dispose();
+
+                return faceActiveLivenessResponse;
+            }
+            catch (Exception ex)
+            {
+                faceActiveLivenessResponse.Status = false;
+                faceActiveLivenessResponse.Message = ex.Message;
+
+                return faceActiveLivenessResponse;
+            }
         }
 
         private string GetPhotoMimeType(string photoExtension)

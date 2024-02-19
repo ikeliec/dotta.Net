@@ -15,3 +15,8 @@ public class FaceMatchCommand
     public IFormFile PhotoOne { get; set; } = default!;
     public IFormFile PhotoTwo { get; set; } = default!;
 }
+
+public class FaceActiveLivenessCommand
+{
+    public IFormFileCollection Photos { get; set; } = default!;
+}

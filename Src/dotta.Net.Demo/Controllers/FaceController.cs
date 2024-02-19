@@ -21,8 +21,8 @@ public class FaceController : ControllerBase
     [HttpPost("Attributes")]
     public async Task<IActionResult> Attributes([FromForm] FaceAttributesCommand command)
     {
-        var faceAttributes = await _dotta.FaceAttributes(command.Photo);
-        return Ok(faceAttributes);
+        var response = await _dotta.FaceAttributes(command.Photo);
+        return Ok(response);
     }
 
     /// <summary>
@@ -35,8 +35,8 @@ public class FaceController : ControllerBase
     [HttpPost("Detect")]
     public async Task<IActionResult> Detect([FromForm] FaceDetectCommand command)
     {
-        var faceAttributes = await _dotta.FaceDetection(command.Photo);
-        return Ok(faceAttributes);
+        var response = await _dotta.FaceDetection(command.Photo);
+        return Ok(response);
     }
 
     /// <summary>
@@ -49,7 +49,21 @@ public class FaceController : ControllerBase
     [HttpPost("Match")]
     public async Task<IActionResult> Match([FromForm] FaceMatchCommand command)
     {
-        var faceAttributes = await _dotta.FaceMatch(command.PhotoOne, command.PhotoTwo);
-        return Ok(faceAttributes);
+        var response = await _dotta.FaceMatch(command.PhotoOne, command.PhotoTwo);
+        return Ok(response);
+    }
+
+    /// <summary>
+    /// Run active liveness analysis on collection of photos
+    /// </summary>
+    /// <param name="command"></param>
+    [Produces("application/json")]
+    [ProducesResponseType(typeof(DottaResponse<FaceActiveLivenessResponse>), (int)HttpStatusCode.OK)]
+    [ProducesResponseType(typeof(ErrorResponse), (int)HttpStatusCode.BadRequest)]
+    [HttpPost("ActiveLiveness")]
+    public async Task<IActionResult> ActiveLiveness([FromForm] FaceActiveLivenessCommand command)
+    {
+        var response = await _dotta.ActiveLivenessCheck(command.Photos);
+        return Ok(response);
     }
 }
