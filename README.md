@@ -19,9 +19,19 @@ builder.Services.AddDotta(new DottaServiceOptions
     ApiKey = "",
     BaseUrlProduction = "",
     BaseUrlSandbox = "",
+    Environment = DottaEnvironment.Sandbox
+});
+```
+
+You can also instantiate dotta directly in an implementation logic.
+```
+var _dotta = new Dotta(new DottaOptions
+{
+    ApiKey = "ABCDE",
+    BaseUrlProduction = "",
+    BaseUrlSandbox = "",
     Environment = DottaEnvironment.Sandbox,
-    PrivateKey = "",
-    PublicKey = ""
+    HttpClient = // pass an instance of httpClient
 });
 ```
 

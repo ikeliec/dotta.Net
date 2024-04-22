@@ -5,7 +5,6 @@ using System.Linq;
 using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Net.Mime;
-using System.Text;
 using System.Text.Json;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
@@ -23,17 +22,7 @@ namespace dotta.Net
             Environment = options.Environment;
             BaseUrlProduction = options.BaseUrlProduction;
             BaseUrlSandbox = options.BaseUrlSandbox;
-
-            if (!string.IsNullOrWhiteSpace(options.ApiKey))
-            {
-                ApiKey = options.ApiKey;
-            }
-            else
-            {
-                var plainTextBytes = Encoding.UTF8.GetBytes($"{options.PublicKey}:{options.PrivateKey}");
-                var base64String = Convert.ToBase64String(plainTextBytes);
-                ApiKey = base64String;
-            }
+            ApiKey = options.ApiKey;
         }
 
         public string ApiKey { get; }

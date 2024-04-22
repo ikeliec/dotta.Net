@@ -15,9 +15,7 @@ public class DottaTest
             BaseUrlProduction = "https://apps.securedrecords.com/dotta-biometrics/api",
             BaseUrlSandbox = "https://apps.securedrecords.com/DevDottaBiometrics/api",
             Environment = DottaEnvironment.Sandbox,
-            HttpClient = mockHttpClient.Object,
-            PrivateKey = "FGHIJ",
-            PublicKey = "KLMNO"
+            HttpClient = mockHttpClient.Object
         });
 
         // Act
@@ -25,6 +23,7 @@ public class DottaTest
         var environment = dottaService.Environment;
         var prodBaseUrl = dottaService.BaseUrlProduction;
         var sandboxBaseUrl = dottaService.BaseUrlSandbox;
+        
 
         // Assert
         Assert.Equal("ABCDE", apiKey);
